@@ -1,0 +1,23 @@
+type Project {
+  _id: ID!
+  name: String!
+  description: String
+  status: String!
+}
+
+type Query {
+  "Get list of projects"
+  projects: [Project]
+  "Find a project by ID"
+  project(id: ID!): Project
+}
+
+input ProjectCreateInput {
+  name: String!
+  description: String
+}
+
+type Mutation {
+  "Create a project"
+  createProject(input: ProjectCreateInput!): Project
+}
