@@ -2,6 +2,8 @@ import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {ProjectStatus} from 'src/graphql.schema';
+import {TaskDTO} from '../tasks/dto/task.dto';
+import {TasksDocument} from '../tasks/schemas/task.schema';
 import {CreateProjectDTO} from './dto/create-project.dto';
 import {ProjectDTO} from './dto/project.dto';
 import {UpdateProjectDTO} from './dto/update-project.dto';
@@ -11,7 +13,9 @@ import {ProjectsDocument} from './schemas/project.schema';
 export class ProjectService {
   constructor(
     @InjectModel('projects')
-    private projectsModel: Model<ProjectsDocument>
+    private projectsModel: Model<ProjectsDocument>,
+    @InjectModel('tasks')
+    private tasksModel: Model<TasksDocument>
   ) {}
 
   async getProjects(): Promise<ProjectDTO[]> {
@@ -30,6 +34,14 @@ export class ProjectService {
         $and: [{status}],
       })
       .exec();
+  }
+
+  async getTasks(projectId: string): Promise<TaskDTO[]> {
+    const project = await this.projectsModel.findById(projectId);
+
+    if (!project) return [];
+
+    return await this.tasksModel.find({_id: {$in: project.tasks}});
   }
 
   async createProject(input: CreateProjectDTO): Promise<ProjectDTO> {

@@ -9,6 +9,7 @@ type Project {
   name: String!
   description: String
   status: ProjectStatus!
+  tasks: [Task]
 }
 
 type Query {
@@ -16,7 +17,10 @@ type Query {
   projects: [Project]
   "Find a project by ID"
   project(id: ID!): Project
+  "Search projects"
   search(keyword: String, status: ProjectStatus): [Project]
+  "Get list of tasks"
+  tasks: [Task]
 }
 
 input ProjectCreateInput {

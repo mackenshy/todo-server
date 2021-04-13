@@ -1,4 +1,11 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import {ProjectStatus} from 'src/graphql.schema';
 import {CreateProjectDTO} from '../dto/create-project.dto';
 import {ProjectDTO} from '../dto/project.dto';
@@ -8,6 +15,11 @@ import {ProjectService} from '../projects.service';
 @Resolver('Project')
 export class ProjectsResolver {
   constructor(private projectService: ProjectService) {}
+
+  @ResolveField('tasks')
+  async getTasks(@Parent() project: ProjectDTO) {
+    return await this.projectService.getTasks(project._id);
+  }
 
   @Query('projects')
   async getProjects(): Promise<ProjectDTO[]> {

@@ -1,0 +1,39 @@
+"Task Statuses"
+enum TaskStatuses {
+  OPEN
+  IN_PROGRESS
+  CLOSE
+}
+
+type Task {
+  _id: ID!
+  name: String!
+  description: String
+  status: TaskStatuses!
+}
+
+type Query {
+  "Get a task"
+  task(id: ID!): Task
+}
+
+input CreateTaskInput {
+  projectId: String!
+  name: String!
+  description: String
+}
+
+input UpdateTaskInput {
+  name: String!
+  description: String
+  status: TaskStatuses!
+}
+
+type Mutation {
+  "Create a task"
+  createTask(input: CreateTaskInput!): Task
+  "Update a task"
+  updateTask(id: ID!, input: UpdateTaskInput!): Task
+  "Update status of a task"
+  updateTaskStatus(id: ID!, status: TaskStatuses!): Task
+}
