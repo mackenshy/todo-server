@@ -13,5 +13,5 @@ export class ProjectDTO implements Project {
   description?: string;
 
   @IsEnum(ProjectStatus)
-  status: string;
+  status: ProjectStatus;
 }

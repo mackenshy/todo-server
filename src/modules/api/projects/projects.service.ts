@@ -4,6 +4,7 @@ import {Model} from 'mongoose';
 import {ProjectStatus} from 'src/graphql.schema';
 import {CreateProjectDTO} from './dto/create-project.dto';
 import {ProjectDTO} from './dto/project.dto';
+import {UpdateProjectDTO} from './dto/update-project.dto';
 import {ProjectsDocument} from './schemas/project.schema';
 
 @Injectable()
@@ -34,5 +35,21 @@ export class ProjectService {
   async createProject(input: CreateProjectDTO): Promise<ProjectDTO> {
     const project = new this.projectsModel(input);
     return await project.save();
+  }
+
+  async updateProject(
+    id: string,
+    input: UpdateProjectDTO
+  ): Promise<ProjectDTO> {
+    await this.projectsModel.updateOne({_id: id}, {$set: input}).exec();
+    return await this.projectsModel.findById(id).exec();
+  }
+
+  async updateProjectStatus(
+    id: string,
+    status: ProjectStatus
+  ): Promise<ProjectDTO> {
+    await this.projectsModel.updateOne({_id: id}, {$set: {status}}).exec();
+    return await this.projectsModel.findById(id).exec();
   }
 }

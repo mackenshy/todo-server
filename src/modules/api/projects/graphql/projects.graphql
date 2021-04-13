@@ -8,7 +8,7 @@ type Project {
   _id: ID!
   name: String!
   description: String
-  status: String!
+  status: ProjectStatus!
 }
 
 type Query {
@@ -24,7 +24,17 @@ input ProjectCreateInput {
   description: String
 }
 
+input ProjectUpdateInput {
+  name: String!
+  description: String
+  status: ProjectStatus!
+}
+
 type Mutation {
   "Create a project"
   createProject(input: ProjectCreateInput!): Project
+  "Update a project"
+  updateProject(id: ID!, input: ProjectUpdateInput!): Project
+  "Update status of a project"
+  updateProjectStatus(id: ID!, status: ProjectStatus!): Project
 }

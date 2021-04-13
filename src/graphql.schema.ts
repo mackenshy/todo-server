@@ -17,12 +17,18 @@ export interface ProjectCreateInput {
     description?: string;
 }
 
+export interface ProjectUpdateInput {
+    name: string;
+    description?: string;
+    status: ProjectStatus;
+}
+
 export interface Project {
     __typename?: 'Project';
     _id: string;
     name: string;
     description?: string;
-    status: string;
+    status: ProjectStatus;
 }
 
 export interface IQuery {
@@ -35,4 +41,6 @@ export interface IQuery {
 export interface IMutation {
     __typename?: 'IMutation';
     createProject(input: ProjectCreateInput): Project | Promise<Project>;
+    updateProject(id: string, input: ProjectUpdateInput): Project | Promise<Project>;
+    updateStatus(id: string, status: ProjectStatus): Project | Promise<Project>;
 }
