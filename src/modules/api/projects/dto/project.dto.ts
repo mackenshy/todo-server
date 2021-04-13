@@ -1,6 +1,5 @@
 import {IsEnum, IsOptional, IsString, Max} from 'class-validator';
-import {Project} from 'src/graphql.schema';
-import {ProjectStatusesEnum} from '../enums/project-statuses.enum';
+import {Project, ProjectStatus} from 'src/graphql.schema';
 
 export class ProjectDTO implements Project {
   @IsString()
@@ -13,6 +12,6 @@ export class ProjectDTO implements Project {
   @IsOptional()
   description?: string;
 
-  @IsEnum(ProjectStatusesEnum)
+  @IsEnum(ProjectStatus)
   status: string;
 }

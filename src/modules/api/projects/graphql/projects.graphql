@@ -1,3 +1,9 @@
+"Project Statuses"
+enum ProjectStatus {
+  OPEN
+  ARCHIVED
+}
+
 type Project {
   _id: ID!
   name: String!
@@ -10,6 +16,7 @@ type Query {
   projects: [Project]
   "Find a project by ID"
   project(id: ID!): Project
+  search(keyword: String, status: ProjectStatus): [Project]
 }
 
 input ProjectCreateInput {

@@ -1,7 +1,7 @@
-import {Args, ID, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {ProjectStatus} from 'src/graphql.schema';
 import {CreateProjectDTO} from '../dto/create-project.dto';
 import {ProjectDTO} from '../dto/project.dto';
-import {ProjectStatusesEnum} from '../enums/project-statuses.enum';
 import {ProjectService} from '../projects.service';
 
 @Resolver('Project')
@@ -18,13 +18,21 @@ export class ProjectsResolver {
     return await this.projectService.getProject(id);
   }
 
+  @Query('search')
+  async search(
+    @Args('keyword') keyword: string,
+    @Args('status') status: ProjectStatus
+  ): Promise<ProjectDTO[]> {
+    return await this.projectService.search(keyword, status);
+  }
+
   @Mutation('createProject')
   async createProject(
     @Args('input') input: CreateProjectDTO
   ): Promise<ProjectDTO> {
     const project = {
       ...input,
-      status: ProjectStatusesEnum.OPEN,
+      status: ProjectStatus.OPEN,
     };
     return await this.projectService.createProject(project);
   }

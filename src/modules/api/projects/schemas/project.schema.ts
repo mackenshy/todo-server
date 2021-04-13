@@ -1,7 +1,6 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {Document} from 'mongoose';
-import {Project} from 'src/graphql.schema';
-import {ProjectStatusesEnum} from '../enums/project-statuses.enum';
+import {Project, ProjectStatus} from 'src/graphql.schema';
 
 export type ProjectsDocument = ProjectEntity & Document;
 
@@ -9,13 +8,14 @@ export type ProjectsDocument = ProjectEntity & Document;
 export class ProjectEntity extends Document implements Project {
   _id: string;
 
-  @Prop({unique: true, required: true})
+  @Prop({unique: true, required: true, text: true, trim: true})
   name: string;
 
-  @Prop({required: false})
+  @Prop({required: false, text: true})
   description: string;
-  @Prop({type: ProjectStatusesEnum, required: true})
-  status: ProjectStatusesEnum;
+
+  @Prop({type: ProjectStatus, required: true})
+  status: ProjectStatus;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(ProjectEntity);
