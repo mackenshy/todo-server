@@ -55,7 +55,6 @@ export interface IQuery {
     projects(): Project[] | Promise<Project[]>;
     project(id: string): Project | Promise<Project>;
     search(keyword?: string, status?: ProjectStatus): Project[] | Promise<Project[]>;
-    tasks(): Task[] | Promise<Task[]>;
     task(id: string): Task | Promise<Task>;
 }
 

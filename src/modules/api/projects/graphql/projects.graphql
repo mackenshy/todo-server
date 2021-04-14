@@ -19,8 +19,6 @@ type Query {
   project(id: ID!): Project
   "Search projects"
   search(keyword: String, status: ProjectStatus): [Project]
-  "Get list of tasks"
-  tasks: [Task]
 }
 
 input ProjectCreateInput {

@@ -4,7 +4,7 @@ import {ProjectService} from '../projects/projects.service';
 import {ProjectSchema} from '../projects/schemas/project.schema';
 import {TasksResolver} from './graphql/tasks.resolver';
 import {TaskSchema} from './schemas/task.schema';
-import {TasksService} from './tasks.servcice';
+import {TasksService} from './tasks.service';
 
 @Module({
   imports: [

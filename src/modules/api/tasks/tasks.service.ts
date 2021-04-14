@@ -5,6 +5,7 @@ import {TaskStatuses} from 'src/graphql.schema';
 import {ProjectsDocument} from '../projects/schemas/project.schema';
 import {CreateTaskDTO} from './dto/create-task.dto';
 import {TaskDTO} from './dto/task.dto';
+import {UpdateTaskDTO} from './dto/update-task.dto';
 import {TasksDocument} from './schemas/task.schema';
 
 @Injectable()
@@ -15,6 +16,10 @@ export class TasksService {
     @InjectModel('projects')
     private projectsModel: Model<ProjectsDocument>
   ) {}
+
+  async getTask(id: string): Promise<TaskDTO> {
+    return await this.tasksModel.findById(id).exec();
+  }
 
   async createTask(input: CreateTaskDTO): Promise<TaskDTO> {
     const {projectId, ...data} = input;
@@ -38,5 +43,15 @@ export class TasksService {
     );
 
     return task;
+  }
+
+  async updateTask(id: string, input: UpdateTaskDTO): Promise<TaskDTO> {
+    await this.tasksModel.updateOne({_id: id}, {$set: input}).exec();
+    return await this.tasksModel.findById(id).exec();
+  }
+
+  async updateTaskStatus(id: string, status: TaskStatuses): Promise<TaskDTO> {
+    await this.tasksModel.updateOne({_id: id}, {$set: {status}}).exec();
+    return await this.tasksModel.findById(id).exec();
   }
 }
